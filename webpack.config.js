@@ -1,5 +1,12 @@
+const path = require("path")
+const glob = require("glob")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const PurgecssPlugin = require("purgecss-webpack-plugin")
+
+const PATHS = {
+    src: path.join(__dirname, "src"),
+}
 
 module.exports = {
     module: {
@@ -30,6 +37,9 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/html/index.html",
             filename: "./index.html",
+        }),
+        new PurgecssPlugin({
+            paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
         }),
     ],
     devServer: {
